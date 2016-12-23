@@ -1,0 +1,60 @@
+
+#js_kal {
+    background: #fbf9f9;
+    width: 280px;
+    font-family: Open Sans, sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    position:absolute;
+    display:none;
+    z-index:999;
+    transition: all .3s ease .15s;
+}
+
+    #js_kal thead {
+        background: #7fc5f2;
+    }
+
+    #js_kal thead > tr:first-child
+    {
+        background: #5faadb;
+    }
+    #js_kal thead > tr > td 
+    {
+        color:#fff;
+    }
+    #js_kal td {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+    }
+
+    #js_kal tbody > tr > td:hover {
+        background: #eee;
+    }
+
+.c_hlight {
+    background: #a1d8fb;
+    border-radius: 20px;
+    color: #fff;
+}
+#in_yr{
+    padding:0;
+}
+#but_yr {
+    background: #5faadb;
+}
+
+#js_kal input[type='text'] {
+    background: none;
+    border: none;
+    width: 40px;
+    text-align:center;
+}
+@media screen and (max-width:360px) {
+    #js_kal {
+        left: 0px;
+        /*border:1px solid #fff;
+        box-shadow:#575757 0 0 5px;*/
+    }
+}

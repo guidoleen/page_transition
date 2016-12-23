@@ -1,0 +1,718 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,300i,400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Language" content="nl" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+    <style>
+        html
+        {
+             font-family: Open Sans, sans-serif;
+        }
+        body
+        {
+             font-family: Open Sans, sans-serif;
+             font-size:18px;
+             line-height:28px;
+        }
+        .h1, .h2, .h3, h1, h2, h3 
+        {
+            margin-top: 0px;
+            line-height: 1.5em;
+        }
+        h2{
+            color:#fff;
+        }
+        h3{
+            color:#fff;
+            font-size: 20px;
+        }
+        .light{
+            font-weight:100;
+        }
+        .logo_banner {
+            background-image: url('images/Logo_Diff.png');
+            background-size:250px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            height: 150px;
+        }
+        .page
+        {
+            width:100%;
+            height:100%;
+            /* overflow-y:scroll; */
+            display:block;
+            position:absolute;
+            vertical-align:middle;
+
+        }
+        #page0{
+            background:#488bb9;
+            visibility:visible;
+            z-index:5;
+        }
+
+        #page1{
+            background:#56a1d3;
+            visibility:visible;
+            z-index:4;
+
+            /* box-shadow:5px 5px 5px 0px #808080; */
+        }
+        #page2{
+            background:#5faadb;
+            visibility:visible;
+            z-index:3;
+        }
+        #page3{
+            background:#488bb9;
+            visibility:visible;
+            z-index:2;
+        }
+        .dropdown-style 
+        {
+            color: #fff;
+            border: solid 1px #fff;
+            background: none;
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 40px;
+            width: 80%;
+            padding-top: 4px;
+        }
+        .dropdown-menu 
+        {
+            min-width:80%;
+        }
+        .caret 
+        {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 13px dashed;
+            border-top: 4px solid\9;
+            border-right: 9px solid transparent;
+            border-left: 9px solid transparent;
+            margin-top: 9px;
+        }
+        label
+        {
+            color:#fff;
+            display:block;
+        }
+        .row-fluid
+        {
+            margin:0 auto;
+        }
+        input
+        {
+            color:#fff;
+            border:solid 1px #fff;
+            background:none;
+            padding-left:10px;
+            padding-right:10px;
+            height:40px;
+            width:80%;
+        }
+        select
+        {
+            color:#fff;
+            border:solid 1px #fff;
+            background:none;
+            padding-left:10px;
+            padding-right:10px;
+            height:40px;
+            width:80%;
+        }
+        .butt
+        {
+            color:#fff;
+            border:solid 1px #fff;
+            background:none;
+            padding-left:10px;
+            padding-right:10px;
+            height:30px;
+            box-shadow: 0 3px 0px #ffffff;
+        }
+        .butt:hover
+        {
+            opacity:0.5;
+        }
+        .butt_start
+        {
+            height:150px;
+            padding:50px;
+            font-size:20px;
+            font-weight:100;
+            margin:5px;
+        }
+        .butt_next
+        {
+            position:absolute;
+            right:0;
+        }
+        .butt_go
+        {
+            width:80%;
+        }
+        .show
+        {
+            visibility:visible;
+        }
+        .hide
+        {
+            visibility:hidden;
+        }
+        .form-group
+        {
+            margin-bottom:40px;
+        }
+        div.pager_div
+        {
+            width:100%;
+            align-content:center;
+        }
+        ul.pager_ul
+        {
+            list-style-type:none;
+            list-style:outside;
+            width:100%;
+            height:20px;
+            margin:0;
+            padding:0;
+            font-size:0.8em;
+        }
+        ul.pager_ul > li
+        {
+            display:inline;
+            list-style: none;
+            opacity:0.2;
+            width:20px;
+            height:20px;
+        }
+        ul > li.active
+        {
+            opacity:0.8;
+        }
+        span.pager_butt
+        {
+            background:#fff;
+            width:20px;
+            height:20px;
+            /* border-radius:10px; */
+        }
+        span.pager_id_1
+        {
+            width:0;
+            height:0;
+        }
+        span.pager_id_2
+        {
+            width:0;
+            height:0;
+        }
+        span.pager_id_3
+        {
+            width:0;
+            height:0;
+        }
+        .scherm
+        {
+            width:30%;
+            margin:0 auto;
+            margin-top: 50px;
+        }
+        .start_scherm
+        {
+            width:100%;
+            margin-top: 50px;
+        }
+        @media screen and (max-width:1200px)
+        {
+            .scherm{
+                width:50%;
+
+            }
+        }
+
+        @media screen and (max-width:850px)
+        {
+            h2{
+                font-size:25px;
+            }
+            .scherm{
+                width:100%;
+                padding-left:15px;
+                padding-right:15px;
+                padding-top:60px;
+
+            }
+            select
+            {
+                width:100%;
+            }
+            input
+            {
+                width:100%;
+            }
+
+            .butt_start {
+                height: 50px;
+                padding: 10px;
+                display:block;
+                margin-bottom:10px;
+                width:90%;
+                
+            }
+            .butt_go
+            {
+                width:100%;
+            }
+
+            .dropdown-style 
+            {
+                width: 100%;
+            }
+            .dropdown-menu 
+            {
+                min-width:100%;
+            }
+        }
+    </style>
+
+    <!-- Get the Js Calendar -->
+    <script src="calendar/Calendar.js"></script>
+    <link rel="stylesheet" type="text/css" href="calendar/Calendar.css" />
+
+    <title>Verzekering consument</title>
+</head>
+<body>
+    <header>
+        <div class="logo_banner"></div>
+    </header>
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- the Calendar Div -->
+                <div id="js_kal"></div>
+                <script>
+                    initDate("NL"); // first time calender on this date
+                </script>
+                <!-- END the Calendar Div -->
+                <!-- page-calendar Area -->
+                <div class="page-calendar">
+                    <div id="page0" align="center" class="page" pwth="0">
+                        <button id="butt00" class="button butt show butt_next">></button>
+                        <div class="show" chldp="1">
+                            <div class="start_scherm">
+                                <h2 class="light">Voordat je verder gaat,<br /> kies hier jouw produkt...</h2>
+                                <p>&nbsp;</p>
+                                <button id="butt00" class="button butt butt_start">Polis op maat</button>
+                                <button id="butt00" class="button butt butt_start">Offerte vandaag nog</button>
+                                <button id="butt00" class="button butt butt_start">Offerte zoeken</button>
+                                <button id="butt00" class="button butt butt_start">Invoer</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="page1" class="page" pwth="0">
+                        <button id="butt01" class="button butt butt_next"><</button>
+
+                        <div id="p1" class="show" chldp="1">
+                            <div class="scherm">
+                                <h2 class="light">Bereken mijn premie...</h2>
+                                <br>
+                                <div class="form-group">
+                                    <label>Ingangsdatum van de verzekering</label>
+                                    <input type="text" show-cal="1" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <div class="dropdown">
+                                        <label>Bouwjaar van de bromfiets</label>
+                                        <div class="dropdown-toggle dropdown-style" data-toggle="dropdown" id="drpBromF">&gt; Maak jouw keuze <span class="caret pull-right"></span></div>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">2015</a></li>
+                                            <li><a href="#">2016</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">
+                            <div class="dropdown">
+                                <label>Staat van de bromfiets</label>
+                                <div class="dropdown-toggle dropdown-style" data-toggle="dropdown" id="drpBromFStaat">&gt; Maak jouw keuze <span class="caret pull-right"></span></div>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Perfect</a></li>
+                                    <li><a href="#">Redelijk</a></li>
+                                    <li><a href="#">Slecht</a></li>
+                                </ul>
+                            </div>
+                        </div>-->
+                                <div class="form-group">
+                                    <label>Kenteken van de bromfiets</label>
+                                    <input type="text">
+                                </div>
+
+                                <button id="butt001" class="button butt butt_go">Welke voorwaarden?</button>
+
+                                <p><br /></p>
+                                <div class="pager_div">
+                                    <ul class="pager_ul">
+                                        <li class="active"><span class="pager_butt pager_id_1">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li><span class="pager_butt pager_id_2">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li><span class="pager_butt">&nbsp; &nbsp; &nbsp;</span></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="page2" class="page" pwth="0">
+                        <button id="butt02" class="button butt butt_next"><</button>
+
+                        <div id="p2" class="show" chldp="1">
+                            <div class="scherm">
+                                <h2 class="light">Bereken mijn premie...</h2>
+                                <br>
+                                <div class="form-group">
+                                    <div class="dropdown">
+                                        <label>Motor inhoud</label>
+                                        <div class="dropdown-toggle dropdown-style" data-toggle="dropdown" id="drpMotor">&gt; Maak jouw keuze <span class="caret pull-right"></span></div>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">35cc</a></li>
+                                            <li><a href="#">40cc</a></li>
+                                            <li><a href="#">50cc</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="dropdown">
+                                        <label>Schadevrije jaren</label>
+                                        <div class="dropdown-toggle dropdown-style" data-toggle="dropdown" id="drpSchadeVr">&gt; Maak jouw keuze <span class="caret pull-right"></span></div>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="dropdown">
+                                        <label>Welke verzekering</label>
+                                        <div class="dropdown-toggle dropdown-style" data-toggle="dropdown" id="drpVerzek">&gt; Maak jouw keuze <span class="caret pull-right"></span></div>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">WA</a></li>
+                                            <li><a href="#">WA Casco</a></li>
+                                            <li><a href="#">WA+</a></li>
+                                            <li><a href="#">All Risk</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <button id="butt002" class="button butt butt_go">Sluit nu af...</button>
+
+                                <p><br /></p>
+                                <div class="pager_div">
+                                    <ul class="pager_ul">
+                                        <li><span class="pager_butt pager_id_1">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li class="active"><span class="pager_butt pager_id_2">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li><span class="pager_butt">&nbsp; &nbsp; &nbsp;</span></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="page3" class="page" pwth="0">
+
+                        <div id="p3" class="show" chldp="1">
+                            <div class="scherm">
+                                <h2 class="light">Jouw verzekering is afgesloten...</h2>
+                                <br>
+                                <div class="form-group">
+                                    <label>
+                                        Datum ingang verzekering
+                                        <h3 class="light">12 augustus 2016</h3>
+                                    </label>
+                                    <p>&nbsp;</p>
+                                    <label>
+                                        Bouwjaar van uw bromfiets
+                                        <h3 class="light">25 september 2015</h3>
+                                    </label>
+                                    <p>&nbsp;</p>
+                                    <label>
+                                        Jouw persoonlijke gegevens
+                                        <h3 class="light">
+                                            Piet van Dam<br />
+                                            Spoortstraat 15<br />
+                                            5000 AA Haarlem
+                                        </h3>
+
+                                    </label>
+
+                                </div>
+
+                                <button id="butt002" class="button butt butt_go" onclick="window.location.href='index.html'">Klaar en sluit</button>
+
+                                <p><br /></p>
+                                <div class="pager_div">
+                                    <ul class="pager_ul">
+                                        <li><span class="pager_butt pager_id_1">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li><span class="pager_butt pager_id_2">&nbsp; &nbsp; &nbsp;</span></li>
+                                        <li class="active"><span class="pager_butt">&nbsp; &nbsp; &nbsp;</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+
+    <script>
+        $(document).ready(function ()
+        {
+            // PageArray
+            var ArrElements = [
+                "#page0",
+                "#page1",
+                "#page2",
+                "#page3"
+            ];
+
+            // Global vars
+            var VERGR = 2;
+            var PAGEH = 5;
+            var ARRL = ArrElements.length;
+
+            // EventHandlers
+            $("#page0").click(function ()
+            {
+                page_trans(0);
+            });
+
+            $("#butt01, #butt001, .pager_id_1").click(function ()
+            {
+                butt_change("#butt01");
+                page_trans(1);
+            });
+
+            $("#butt02, #butt002, .pager_id_2").click(function ()
+            {
+                butt_change("#butt02");
+                page_trans(2);
+            });
+
+            $("#butt03").click(function () {
+                page_trans(3);
+            });
+
+            // Function change Text
+            function butt_change(obj)
+            {
+                if ($(obj).text() == "<"){
+                    $(obj).text(">");
+                }
+                else {
+                    $(obj).text("<");
+                }
+            }
+
+            // The Page transition
+            function page_trans(obj)
+            {
+                var divObj = element_init(obj);
+                var iXtra = (obj * VERGR) + PAGEH;
+                var iScreen = $(window).width();
+                var iScreenH = $(window).height();
+                var iObjHeight = ($(divObj).height() + $("header").height());
+
+                // Eventueel te gerbuiken
+                if ($(divObj).attr('pwth') == 0) {
+                    $(divObj).attr('pwth', 1);
+                }
+                else {
+                    $(divObj).attr('pwth', 0);
+                }
+
+                // Show screen 100%
+                var chlObj = $(divObj + "> div[chldp='1']");
+                
+                if ($(divObj).width() < iScreen)
+                {
+                    if (iScreen < iScreenH)
+                    {
+                        $(divObj).animate({
+                             height: "100%"
+                        });
+                    }
+                    else
+                    {
+                        $(divObj).animate({
+                             width: "100%"
+                         });
+                    }
+
+                    if (chlObj.attr('class') == 'hide') {
+                        chlObj.removeClass('hide');
+                        chlObj.addClass('show');
+                    }
+                }
+                else // Show Small screen
+                {
+                    if (chlObj.attr('class') == 'show') {
+                        chlObj.removeClass('show');
+                        chlObj.addClass('hide');
+                    }
+
+                    if (iScreen < iScreenH) {
+                        $(divObj).animate({
+                            height: iXtra + "%"
+                        });
+                    }
+                    else {
+                        $(divObj).animate({
+                            width: iXtra + "%"
+                        });
+                    }
+                }
+
+                // Height adjustments
+                if (iObjHeight > iScreenH)
+                {
+                    $(divObj).height(iObjHeight);
+                    if (obj > ArrElements.length)
+                    {
+                        $(element_init(0)).height( $(element_init(0)).height() );
+                    }
+                    else
+                    {
+                        $(element_init(obj + 1)).height(iObjHeight);
+                    }
+                }
+            }
+
+            // Resize Window function
+            function resize_win()
+            {
+                $(window).resize(function ()
+                {
+                    var ObjP;
+                    var iScreen = $(window).width();
+                    var iScreenH = $(window).height();
+                    var iPW = 0;
+                    var iW = 5;
+
+                    if (ARRL == null) return 0;
+
+                    for (i = 0; i < ARRL; i++)
+                    {
+                        ObjP = null;
+                        ObjP = $(ArrElements[i]);
+
+                        if (ObjP.prop('width') == null)
+                        {
+                            if (iScreen < iScreenH)
+                            {
+                                iPW = parseInt(ObjP.css('width'));
+                                if (iPW < iScreen) {
+
+                                    iW = (i * VERGR) + PAGEH;
+
+                                    ObjP.removeAttr('style');
+                                    ObjP.css('height', iW + "%");
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Call the Resize function
+            resize_win();
+
+            // PageChoise
+            function element_init(obj) {
+                var Obj = ArrElements[obj];
+
+                return Obj;
+            }
+
+            // Dropdown function
+            function drop_down() {
+                $(".dropdown-toggle[data-toggle]").click(function () {
+                    var id = $(this).attr('id');
+                    if (id == null) return;
+
+                    $("li").click(function () {
+                        var liTxt = $(this).text();
+                        $("#" + id).text(liTxt);
+
+                        id = null;
+                    });
+                });
+            }
+
+            // Show Calendar when onfocus
+            function click_calendar()
+            {
+                var objCalName = "#js_kal";
+                var objCal = $(objCalName);
+                var obj;
+
+                // Hide Calendar
+                //$(".page-calendar").click(function () {
+                //    if (!objCal.css("display", "none")) objCal.css("display", "none");
+                //});
+
+                $("input[show-cal='1']").on("focus", function (e)
+                {
+                    obj = $("input[show-cal='1']");
+                    var x = obj.position().left;
+                    var y = obj.position().top;
+                    
+                    objCal.css({
+                        "top": y + "px",
+                        "left": x + "px",
+                        "display":"block"
+                    });
+
+                });
+
+                $(objCalName + " tbody tr td").on("click", function () {
+                    var day = $(this).text();
+                    var yr = $("#in_yr").val();
+                    var mnth = $("#in_mnt").val();
+
+                    obj.val(day + "/" + mnth + "/" + yr);
+
+                    objCal.css("display", "none");
+                });
+            }
+
+            // Function calls 
+            drop_down();
+            click_calendar();
+        });
+    </script>
+</body>
+
+</html>
